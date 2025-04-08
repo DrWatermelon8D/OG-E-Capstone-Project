@@ -1,0 +1,165 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@using MudBlazor
+
+<PageTitle>Home</PageTitle>
+
+<MudText  Typo="Typo.h1" GutterBottom="true">Upload file</MudText>
+
+
+<MudGrid>
+    <MudItem xs="6">
+        <div Class>
+            <MudText Typo="Typo.h5">Most Active Reader:</MudText>
+            <MudText Class="pl-2">@getMostActiveReader() </MudText>
+            <MudText Typo="Typo.h5">Most Active User:</MudText>
+            <MudText Class="pl-2">@getMostActiveUser() </MudText>
+            <MudText Typo="Typo.h5">Average Unique scans per day:</MudText>
+            <MudText Class="pl-2">@getAverageActivity() </MudText>
+            <MudText Typo="Typo.h5">Busiest Day of the Week:</MudText>
+            <MudText Class="pl-2">@getMostActiveDayOfWeek() </MudText>
+        </div>
+    </MudItem>
+    <MudItem xs="15">
+    @if(DictionariesCreated){
+        <MudChart Class="pl-4" ChartType="ChartType.Line" ChartSeries="activitiesPerDay" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
+    }
+    </MudItem>
+</MudGrid>
+
+
+
+@code{
+    public static bool DictionariesCreated = false;
+    public string ErrorMessage { get; set; } = "";
+    public string FileName {get; set;} = "";
+    const int MAX_FILESIZE = 50000 * 1024;
+    public List<ChartSeries> activitiesPerDay = new List<ChartSeries>();
+    public AxisChartOptions axisChartOptions = new AxisChartOptions();
+    public string getMostActiveReader()
+    {
+        string mostActiveReader = "";
+        int mostActiveCount = 0;
+        if(DictionariesCreated)
+        {
+            foreach(KeyValuePair<int, List<ReaderEvent>> r in FileStorage.ReaderDictionary)
+            {
+                if(r.Value.Count() > mostActiveCount){
+                    mostActiveCount = r.Value.Count();
+                    mostActiveReader = r.Value[0].ReaderDescription;
+                }
+            }
+        }
+        return mostActiveReader;
+    }
+
+    public string getMostActiveUser()
+    {
+        string mostActiveUser = "";
+        int mostActiveCount = 0;
+        if(DictionariesCreated)
+        {
+            foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.HashDictionary)
+            {
+                int valueCount = r.Value.Count();
+                if(valueCount > mostActiveCount){
+                    mostActiveCount = valueCount;
+                    mostActiveUser = r.Key;
+                }
+            }
+        }
+        return mostActiveUser;
+    }
+    
+    public float getAverageActivity()
+    {
+        if(DictionariesCreated)
+        {
+        List<int> UniqueCounts = new List<int>();
+        List<string> hashSeen = new List<string>();
+        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
+        {
+            
+            UniqueCounts.Add(0);
+            foreach(ReaderEvent e in r.Value)
+            {
+                if(!hashSeen.Contains(e.IDHash))
+                {
+                    UniqueCounts[UniqueCounts.Count - 1] ++;
+                    hashSeen.Add(e.IDHash);
+                }
+            }
+            hashSeen.Clear();
+        }
+
+        int totalUniqueCounted = 0;
+        foreach(int i in UniqueCounts)
+        {
+            totalUniqueCounted += i;
+        }
+        return totalUniqueCounted / FileStorage.DateDictionary.Count();
+        }
+        return 0;
+    }
+
+    public DayOfWeek getMostActiveDayOfWeek()
+    {
+        DayOfWeek mostActiveDay = DayOfWeek.Sunday;
+        if(DictionariesCreated)
+        {
+            Dictionary<DayOfWeek, List<ReaderEvent>> D = new Dictionary<DayOfWeek, List<ReaderEvent>>();
+
+            foreach(KeyValuePair<string, List<ReaderEvent>> list in FileStorage.DateDictionary)
+            {
+                foreach(ReaderEvent e in list.Value)
+                {
+                    if(D.ContainsKey(e.EventTimeStamp.DayOfWeek))
+                    {   
+                        D[e.EventTimeStamp.DayOfWeek].Add(e);
+                    }else{
+                        D.Add(e.EventTimeStamp.DayOfWeek, new List<ReaderEvent>());
+                        D[e.EventTimeStamp.DayOfWeek].Add(e);
+                    }
+                }
+            }
+            int mostActive = 0;
+            foreach(KeyValuePair<DayOfWeek, List<ReaderEvent>> k in D)
+            {
+                if(k.Value.Count() > mostActive)
+                {
+                    mostActiveDay = k.Key;
+                    mostActive = k.Value.Count();
+                }
+            }
+        
+
+            if(!(activitiesPerDay.Count() > 0))
+            {
+                double[] countsPerDay = new double[FileStorage.DateDictionary.Count()];
+                int count = 0;
+                foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
+                {
+                    countsPerDay[count] = r.Value.Count();
+                    count++;
+                }
+                activitiesPerDay.Add(new ChartSeries{Name = "Scans per day", Data = countsPerDay});
+            }
+
+        }
+        return mostActiveDay;
+
+    }
+
+    public string[] getChartLabels()
+    {
+        string[] returnArray; 
+        if(DictionariesCreated){
+            returnArray = FileStorage.DateDictionary.Keys.ToArray();
+        }else{
+            returnArray = new string[]{"No Data Uploaded"};
+        }
+
+        return returnArray;
+    }
+}
