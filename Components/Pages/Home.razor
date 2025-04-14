@@ -24,9 +24,9 @@
 </MudGrid>
 
 <div>
-    <MudText>Scans over Time</MudText>
+    <MudText>Scans over Time @chartStartDate / @chartEndDate</MudText>
     @if(DictionariesCreated){
-        <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="activitiesPerDay" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
+        <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="@getChartData()" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
     }
 </div>
 
@@ -36,7 +36,6 @@
     public string ErrorMessage { get; set; } = "";
     public string FileName {get; set;} = "";
     const int MAX_FILESIZE = 50000 * 1024;
-    public List<ChartSeries> activitiesPerDay = new List<ChartSeries>();
     public AxisChartOptions axisChartOptions = new AxisChartOptions(); 
     public string chartStartDate = "";
     public string chartEndDate = "";
@@ -114,46 +113,67 @@
         if(DictionariesCreated)
         {
             Dictionary<DayOfWeek, List<ReaderEvent>> D = new Dictionary<DayOfWeek, List<ReaderEvent>>();
-
-            foreach(KeyValuePair<string, List<ReaderEvent>> list in FileStorage.DateDictionary)
+            Dictionary<DayOfWeek, int> dayCounts = new Dictionary<DayOfWeek, int>();
+            foreach(KeyValuePair<string, List<ReaderEvent>> value in FileStorage.DateDictionary)
             {
-                foreach(ReaderEvent e in list.Value)
+                DayOfWeek day = value.Value.First().EventTimeStamp.DayOfWeek;
+                foreach(ReaderEvent e in value.Value)
                 {
-                    if(D.ContainsKey(e.EventTimeStamp.DayOfWeek))
+                    if(D.ContainsKey(day))
                     {   
-                        D[e.EventTimeStamp.DayOfWeek].Add(e);
+                        D[day].Add(e);
                     }else{
-                        D.Add(e.EventTimeStamp.DayOfWeek, new List<ReaderEvent>());
-                        D[e.EventTimeStamp.DayOfWeek].Add(e);
+                        D.Add(day, new List<ReaderEvent>());
+                        D[day].Add(e);
                     }
                 }
+
+                
+                if(dayCounts.ContainsKey(day))
+                {
+                    dayCounts[day]++;
+                }else{
+                    dayCounts.Add(day, 1);
+                }
             }
+
+    
             int mostActive = 0;
             foreach(KeyValuePair<DayOfWeek, List<ReaderEvent>> k in D)
             {
-                if(k.Value.Count() > mostActive)
+                if(k.Value.Count()/dayCounts[k.Key] > mostActive)
                 {
                     mostActiveDay = k.Key;
-                    mostActive = k.Value.Count();
+                    mostActive = k.Value.Count()/dayCounts[k.Key];
                 }
+                Console.WriteLine(k.Key + " " + k.Value.Count());
             }
-        
-
-            if(!(activitiesPerDay.Count() > 0))
+            foreach(KeyValuePair<DayOfWeek, int> i in dayCounts)
             {
-                double[] countsPerDay = new double[FileStorage.DateDictionary.Count()];
-                int count = 0;
-                foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
-                {
-                    countsPerDay[count] = r.Value.Count();
-                    count++;
-                }
-                activitiesPerDay.Add(new ChartSeries{Name = "Scans per day", Data = countsPerDay});
+                Console.WriteLine(i.Key + " " + i.Value);
             }
 
         }
         return mostActiveDay;
 
+    }
+
+    public List<ChartSeries> getChartData()
+    {
+        if(chartStartDate.Equals(""))
+        {
+            chartStartDate = FileStorage.DateDictionary.Keys.First();
+            chartEndDate = FileStorage.DateDictionary.Keys.Last();
+        }
+        double[] countsPerDay = new double[FileStorage.DateDictionary.Count()];
+        int count = 0;
+        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
+        {
+            countsPerDay[count] = r.Value.Count();
+            count++;
+        }
+
+        return new List<ChartSeries>{new ChartSeries{Name = "Scans per day", Data = countsPerDay}};
     }
 
     public string[] getChartLabels()
