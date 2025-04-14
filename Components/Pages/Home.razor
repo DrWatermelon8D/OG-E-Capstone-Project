@@ -1,7 +1,6 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
-@using MudBlazor
 
 <PageTitle>Home</PageTitle>
 
@@ -21,13 +20,15 @@
             <MudText Class="pl-2">@getMostActiveDayOfWeek() </MudText>
         </div>
     </MudItem>
-    <MudItem xs="15">
-    @if(DictionariesCreated){
-        <MudChart Class="pl-4" ChartType="ChartType.Line" ChartSeries="activitiesPerDay" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
-    }
-    </MudItem>
+
 </MudGrid>
 
+<div>
+    <MudText>Scans over Time</MudText>
+    @if(DictionariesCreated){
+        <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="activitiesPerDay" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
+    }
+</div>
 
 
 @code{
@@ -36,7 +37,11 @@
     public string FileName {get; set;} = "";
     const int MAX_FILESIZE = 50000 * 1024;
     public List<ChartSeries> activitiesPerDay = new List<ChartSeries>();
-    public AxisChartOptions axisChartOptions = new AxisChartOptions();
+    public AxisChartOptions axisChartOptions = new AxisChartOptions(); 
+    public string chartStartDate = "";
+    public string chartEndDate = "";
+
+
     public string getMostActiveReader()
     {
         string mostActiveReader = "";
@@ -156,6 +161,7 @@
         string[] returnArray; 
         if(DictionariesCreated){
             returnArray = FileStorage.DateDictionary.Keys.ToArray();
+            axisChartOptions.MatchBoundsToSize = true;
         }else{
             returnArray = new string[]{"No Data Uploaded"};
         }

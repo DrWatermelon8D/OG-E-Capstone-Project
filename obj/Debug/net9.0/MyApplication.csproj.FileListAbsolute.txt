@@ -46,3 +46,4 @@ C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\o
 C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net9.0\ref\MyApplication.dll
 C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net9.0\compressed\tzxjg6is5z-u34o0xbo4m.gz
 C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net9.0\compressed\0wz98yz2xy-gtd3sm4n1q.gz
+C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net9.0\MyApplication.sourcelink.json

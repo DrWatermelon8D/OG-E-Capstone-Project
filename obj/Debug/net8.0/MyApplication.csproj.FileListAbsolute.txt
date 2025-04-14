@@ -42,3 +42,4 @@ C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\o
 C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net8.0\MyApplication.pdb
 C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net8.0\MyApplication.genruntimeconfig.cache
 C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net8.0\ref\MyApplication.dll
+C:\Users\Maxgw\OneDrive\Documents\GitHub\Blazor-Practice\OG&EApp\MyApplication\obj\Debug\net8.0\MyApplication.sourcelink.json
