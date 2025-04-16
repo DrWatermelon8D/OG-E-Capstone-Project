@@ -24,7 +24,11 @@
 </MudGrid>
 
 <div>
-    <MudText>Scans over Time @chartStartDate / @chartEndDate</MudText>
+    <div Style="display: inline-flex">
+        <MudText Typo="Typo.h5">Scans over Time</MudText>
+        <MudTextField @bind-Value="chartStartDate" Label="Start Date" Variant="Variant.Outlined"Margin="Margin.Dense" Width="20%"></MudTextField>
+        <MudTextField @bind-Value="chartEndDate" Label="End Date" Variant="Variant.Outlined" Margin="Margin.Dense" Width="20%"></MudTextField>
+    </div>
     @if(DictionariesCreated){
         <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="@getChartData()" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
     }
@@ -37,8 +41,8 @@
     public string FileName {get; set;} = "";
     const int MAX_FILESIZE = 50000 * 1024;
     public AxisChartOptions axisChartOptions = new AxisChartOptions(); 
-    public string chartStartDate = "";
-    public string chartEndDate = "";
+    public string chartStartDate {get; set;} = "";
+    public string chartEndDate {get; set;} = "";
 
 
     public string getMostActiveReader()
@@ -146,11 +150,6 @@
                     mostActiveDay = k.Key;
                     mostActive = k.Value.Count()/dayCounts[k.Key];
                 }
-                Console.WriteLine(k.Key + " " + k.Value.Count());
-            }
-            foreach(KeyValuePair<DayOfWeek, int> i in dayCounts)
-            {
-                Console.WriteLine(i.Key + " " + i.Value);
             }
 
         }
@@ -160,32 +159,53 @@
 
     public List<ChartSeries> getChartData()
     {
+        Console.WriteLine(chartStartDate + chartEndDate);
         if(chartStartDate.Equals(""))
         {
             chartStartDate = FileStorage.DateDictionary.Keys.First();
             chartEndDate = FileStorage.DateDictionary.Keys.Last();
-        }
-        double[] countsPerDay = new double[FileStorage.DateDictionary.Count()];
-        int count = 0;
-        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
-        {
-            countsPerDay[count] = r.Value.Count();
-            count++;
+            Console.WriteLine(chartEndDate);
         }
 
-        return new List<ChartSeries>{new ChartSeries{Name = "Scans per day", Data = countsPerDay}};
+        List<double> countsPerDay = new List<double>();
+        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
+        {
+            if((r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0))
+            {
+                Console.WriteLine("Adding Value: " + r.Value.Count());
+                countsPerDay.Add(r.Value.Count());
+            }
+        }
+
+        return new List<ChartSeries>{new ChartSeries{Name = "Scans per day", Data = countsPerDay.ToArray()}};
     }
 
     public string[] getChartLabels()
     {
-        string[] returnArray; 
+        List<string> returnValues = new List<string>(); 
+    
         if(DictionariesCreated){
-            returnArray = FileStorage.DateDictionary.Keys.ToArray();
-            axisChartOptions.MatchBoundsToSize = true;
-        }else{
-            returnArray = new string[]{"No Data Uploaded"};
+
+        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
+        {
+            /*
+            if((r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0 ) && (r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0)){
+                Console.WriteLine("Adding Date: " + r.Key);
+                returnValues.Add(r.Key);
+            }
+            */
+            returnValues.Add(r.Key);
         }
 
-        return returnArray;
+            axisChartOptions.MatchBoundsToSize = true;
+        }else{
+            returnValues.Add("No Data Uploaded");
+        }
+
+        foreach(string s in returnValues)
+        {
+            Console.WriteLine(s);
+        }
+        return returnValues.ToArray();
     }
 }
