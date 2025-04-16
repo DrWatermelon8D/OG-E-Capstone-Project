@@ -170,6 +170,8 @@
         List<double> countsPerDay = new List<double>();
         foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
         {
+            //Event time stamp happens to late in day, pretty sure the datetime parse is setting 
+            // the chart start date to midnight meaning nothing on the last day gets through
             if((r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0))
             {
                 Console.WriteLine("Adding Value: " + r.Value.Count());
