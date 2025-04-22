@@ -160,12 +160,10 @@
 
     public List<ChartSeries> getChartData()
     {
-        Console.WriteLine(chartStartDate + chartEndDate);
         if(chartStartDate.Equals(""))
         {
             chartStartDate = FileStorage.DateDictionary.Keys.First();
             chartEndDate = FileStorage.DateDictionary.Keys.Last();
-            Console.WriteLine(chartEndDate);
         }
 
         List<double> countsPerDay = new List<double>();
@@ -177,7 +175,6 @@
             // the chart start date to midnight meaning nothing on the last day gets through
             if((TimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (TimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0))
             {
-                Console.WriteLine("Adding Value: " + r.Value.Count());
                 countsPerDay.Add(r.Value.Count());
             }
         }
@@ -196,7 +193,6 @@
              DateTime TimeStamp = DateTime.Parse(r.Value[0].EventTimeStamp.ToString("MMM dd"));
 
             if((TimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (TimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0)){
-                Console.WriteLine("Adding Date: " + r.Key);
                 returnValues.Add(r.Key);
             }
 
@@ -206,11 +202,6 @@
             Options.InterpolationOption = InterpolationOption.NaturalSpline;
         }else{
             returnValues.Add("No Data Uploaded");
-        }
-
-        foreach(string s in returnValues)
-        {
-            Console.WriteLine(s);
         }
         return returnValues.ToArray();
     }
