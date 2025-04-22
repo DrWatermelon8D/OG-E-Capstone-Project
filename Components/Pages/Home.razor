@@ -30,7 +30,7 @@
         <MudTextField @bind-Value="chartEndDate" Label="End Date" Variant="Variant.Outlined" Margin="Margin.Dense" Width="20%"></MudTextField>
     </div>
     @if(DictionariesCreated){
-        <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="@getChartData()" XAxisLabels="@getChartLabels()" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
+        <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="@getChartData()" XAxisLabels="@getChartLabels()" ChartOptions="Options" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
     }
 </div>
 
@@ -41,6 +41,7 @@
     public string FileName {get; set;} = "";
     const int MAX_FILESIZE = 50000 * 1024;
     public AxisChartOptions axisChartOptions = new AxisChartOptions(); 
+    public ChartOptions Options = new ChartOptions();
     public string chartStartDate {get; set;} = "";
     public string chartEndDate {get; set;} = "";
 
@@ -170,9 +171,11 @@
         List<double> countsPerDay = new List<double>();
         foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
         {
+            DateTime TimeStamp = DateTime.Parse(r.Value[0].EventTimeStamp.ToString("MMM dd"));
+            
             //Event time stamp happens to late in day, pretty sure the datetime parse is setting 
             // the chart start date to midnight meaning nothing on the last day gets through
-            if((r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0))
+            if((TimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (TimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0))
             {
                 Console.WriteLine("Adding Value: " + r.Value.Count());
                 countsPerDay.Add(r.Value.Count());
@@ -190,16 +193,17 @@
 
         foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
         {
-            /*
-            if((r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0 ) && (r.Value[0].EventTimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0)){
+             DateTime TimeStamp = DateTime.Parse(r.Value[0].EventTimeStamp.ToString("MMM dd"));
+
+            if((TimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (TimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0)){
                 Console.WriteLine("Adding Date: " + r.Key);
                 returnValues.Add(r.Key);
             }
-            */
-            returnValues.Add(r.Key);
+
         }
 
             axisChartOptions.MatchBoundsToSize = true;
+            Options.InterpolationOption = InterpolationOption.NaturalSpline;
         }else{
             returnValues.Add("No Data Uploaded");
         }
