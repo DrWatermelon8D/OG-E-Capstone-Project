@@ -24,9 +24,14 @@
     <MudItem xs="6">
         @if(DictionariesCreated)
         {
-            <table>
+            <table class="table">
+                <thead>
+                    <th scope="col" >Alerts</th>
+                </thead>
                 @foreach(Alert alert in AlertSystem.findAlerts()){
-                    <tr>@alert.alertDescription</tr>
+                    <tr scope="row">
+                        <td>@alert.alertDescription</td>
+                    </tr>
                 }
             </table>
         }

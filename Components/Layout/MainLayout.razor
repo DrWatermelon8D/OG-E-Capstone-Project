@@ -1,13 +1,16 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Navigation
 @using MudBlazor
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
     <MudAppBar Elevation="1">
-        <img src="oge_logo_white.svg" alt="OG&E Logo" width="50px" height="20px">
+        <img src="oge_logo_white.svg" alt="OG&E Logo" width="Auto" height="Auto">
         <MudSpacer />
         <MudFileUpload T="IBrowserFile" Accept=".csv" FilesChanged="FileUploaded">
         <ActivatorContent>

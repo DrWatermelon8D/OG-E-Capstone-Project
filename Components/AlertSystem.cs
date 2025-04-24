@@ -23,7 +23,7 @@ public class AlertSystem{
         foreach(KeyValuePair<int, List<ReaderEvent>> r in FileStorage.ReaderDictionary){
             if(r.Value.Count() - AverageScans >= 1000)
             {
-                alertList.Add(new Alert("High Usage", "The Reader " + r.Value[0].ReaderDescription + "is recieving higher amounts of scans and may require mantenence sooner."));
+                alertList.Add(new Alert("High Usage", "The Reader " + r.Value[0].ReaderDescription + " is recieving higher amounts of scans and may require mantenence sooner."));
             }
         }
 
