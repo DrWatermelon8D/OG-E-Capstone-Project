@@ -8,12 +8,11 @@ using MudBlazor;
 public class FileStorage{
     public static bool isFileUploaded = false;
     public static string FileName = "";
-    
-    public static int duplicateCount = 0; 
     public static List<ReaderEvent> masterList = new List<ReaderEvent>();
     public static Dictionary<int, List<ReaderEvent>> ReaderDictionary = new Dictionary<int, List<ReaderEvent>>();
     public static Dictionary<string, List<ReaderEvent>> HashDictionary = new Dictionary<string, List<ReaderEvent>>();
     public static Dictionary<string, List<ReaderEvent>> DateDictionary = new Dictionary<string, List<ReaderEvent>>();
+    public static List<ReaderEvent> duplicateEvents = new List<ReaderEvent>();
 
 
     public static void ProcessFile()
@@ -32,12 +31,11 @@ public class FileStorage{
                 
                 if(line != null)
                 {
-                    
-                    if(line != previousLine){     
-                        rawLine = line.Split(",");   
+                    rawLine = line.Split(",");  
+                    if(line != previousLine){      
                         masterList.Add(new ReaderEvent(DateTime.Parse(rawLine[0]), rawLine[1], rawLine[2], rawLine[3], Int32.Parse(rawLine[4]), Int32.Parse(rawLine[5])));
                     }else{
-                        duplicateCount++;
+                        duplicateEvents.Add(new ReaderEvent(DateTime.Parse(rawLine[0]), rawLine[1], rawLine[2], rawLine[3], Int32.Parse(rawLine[4]), Int32.Parse(rawLine[5])));
                     }
                 }
                 previousLine = line; 
@@ -49,7 +47,6 @@ public class FileStorage{
         {
             ErrorMessage = e.ToString();
         }
-        Console.WriteLine(duplicateCount);
         CreateDictionaries();
     }
 

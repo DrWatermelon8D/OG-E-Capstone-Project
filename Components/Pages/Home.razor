@@ -21,6 +21,18 @@
         </div>
     </MudItem>
 
+    <MudItem xs="6">
+        @if(DictionariesCreated)
+        {
+            <table>
+                @foreach(Alert alert in AlertSystem.findAlerts()){
+                    <tr>@alert.alertDescription</tr>
+                }
+            </table>
+        }
+        
+    </MudItem>
+
 </MudGrid>
 
 <div>
@@ -170,9 +182,7 @@
         foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.DateDictionary)
         {
             DateTime TimeStamp = DateTime.Parse(r.Value[0].EventTimeStamp.ToString("MMM dd"));
-            
-            //Event time stamp happens to late in day, pretty sure the datetime parse is setting 
-            // the chart start date to midnight meaning nothing on the last day gets through
+        
             if((TimeStamp.CompareTo(DateTime.Parse(chartStartDate)) >= 0) && (TimeStamp.CompareTo(DateTime.Parse(chartEndDate)) <= 0))
             {
                 countsPerDay.Add(r.Value.Count());
