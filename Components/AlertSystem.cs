@@ -35,7 +35,26 @@ public class AlertSystem{
             }
         }
 
+        Dictionary<int, List<ReaderEvent>> duplicateCounts = new Dictionary<int, List<ReaderEvent>>();
+        foreach(ReaderEvent r in FileStorage.duplicateEvents)
+        {
+            int keyNum = r.DevID + r.MachineID;
+            if(duplicateCounts.ContainsKey(keyNum))
+            {
+                duplicateCounts[keyNum].Add(r);
+            }else{
+                duplicateCounts.Add(keyNum, new List<ReaderEvent>());
+                duplicateCounts[keyNum].Add(r);
+            }
+        }
 
+        foreach(KeyValuePair<int, List<ReaderEvent>> k in duplicateCounts)
+        {
+            if(k.Value.Count() > 25)
+            {
+                alertList.Add(new Alert("High Duplicates", "Reader " + k.Value[0].ReaderDescription + " has a high number of duplicate scans."));
+            }
+        }
 
         return alertList;
     }

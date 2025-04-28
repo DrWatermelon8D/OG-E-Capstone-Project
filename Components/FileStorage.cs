@@ -35,6 +35,7 @@ public class FileStorage{
                     if(line != previousLine){      
                         masterList.Add(new ReaderEvent(DateTime.Parse(rawLine[0]), rawLine[1], rawLine[2], rawLine[3], Int32.Parse(rawLine[4]), Int32.Parse(rawLine[5])));
                     }else{
+                        int keyNum = Int32.Parse(rawLine[4]) + Int32.Parse(rawLine[5]);
                         duplicateEvents.Add(new ReaderEvent(DateTime.Parse(rawLine[0]), rawLine[1], rawLine[2], rawLine[3], Int32.Parse(rawLine[4]), Int32.Parse(rawLine[5])));
                     }
                 }

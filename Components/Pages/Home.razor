@@ -4,12 +4,11 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudText  Typo="Typo.h1" GutterBottom="true">Upload file</MudText>
+<MudText  Typo="Typo.h4" GutterBottom="true">Dashboard</MudText>
 
-
-<MudGrid>
-    <MudItem xs="6">
-        <div Class>
+<div class="container text-left">
+    <div class="row">
+        <div class="col">
             <MudText Typo="Typo.h5">Most Active Reader:</MudText>
             <MudText Class="pl-2">@getMostActiveReader() </MudText>
             <MudText Typo="Typo.h5">Most Active User:</MudText>
@@ -19,27 +18,25 @@
             <MudText Typo="Typo.h5">Busiest Day of the Week:</MudText>
             <MudText Class="pl-2">@getMostActiveDayOfWeek() </MudText>
         </div>
-    </MudItem>
 
-    <MudItem xs="6">
-        @if(DictionariesCreated)
-        {
-            <table class="table">
-                <thead>
-                    <th scope="col" >Alerts</th>
-                </thead>
-                @foreach(Alert alert in AlertSystem.findAlerts()){
-                    <tr scope="row">
-                        <td>@alert.alertDescription</td>
-                    </tr>
-                }
-            </table>
-        }
+        <div class="col">
+            @if(DictionariesCreated)
+            {
+                <table class="table">
+                    <thead>
+                        <th scope="col" >Alerts</th>
+                    </thead>
+                    @foreach(Alert alert in AlertSystem.findAlerts()){
+                        <tr scope="row">
+                            <td>@alert.alertDescription</td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
         
-    </MudItem>
-
-</MudGrid>
-
 <div>
     <div Style="display: inline-flex">
         <MudText Typo="Typo.h5">Scans over Time</MudText>
