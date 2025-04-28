@@ -27,6 +27,14 @@ public class AlertSystem{
             }
         }
 
+        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.HashDictionary)
+        {
+            if(r.Value.Count() < 10)
+            {
+                alertList.Add(new Alert("Low Scans", "User " + r.Key + " has only " + r.Value.Count() + " scans."));
+            }
+        }
+
 
 
         return alertList;
