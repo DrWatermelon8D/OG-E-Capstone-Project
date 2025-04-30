@@ -6,16 +6,16 @@
 
 <MudText  Typo="Typo.h4" GutterBottom="true">Dashboard</MudText>
 
-<div class="container text-left">
-    <div class="row">
+<div class="container">
+    <div class=" align-left row">
         <div class="col">
-            <MudText Typo="Typo.h5">Most Active Reader:</MudText>
+            <MudText Typo="Typo.h4">Most Active Reader:</MudText>
             <MudText Class="pl-2">@getMostActiveReader() </MudText>
-            <MudText Typo="Typo.h5">Most Active User:</MudText>
+            <MudText Typo="Typo.h4">Most Active User:</MudText>
             <MudText Class="pl-2">@getMostActiveUser() </MudText>
-            <MudText Typo="Typo.h5">Average Unique scans per day:</MudText>
+            <MudText Typo="Typo.h4">Average Unique scans per day:</MudText>
             <MudText Class="pl-2">@getAverageActivity() </MudText>
-            <MudText Typo="Typo.h5">Busiest Day of the Week:</MudText>
+            <MudText Typo="Typo.h4">Busiest Day of the Week:</MudText>
             <MudText Class="pl-2">@getMostActiveDayOfWeek() </MudText>
         </div>
 
@@ -58,7 +58,6 @@
     public ChartOptions Options = new ChartOptions();
     public string chartStartDate {get; set;} = "";
     public string chartEndDate {get; set;} = "";
-
 
     public string getMostActiveReader()
     {
@@ -217,4 +216,5 @@
         }
         return returnValues.ToArray();
     }
+
 }
