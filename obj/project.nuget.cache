@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3jI1lkEvopE=",
+  "dgSpecHash": "5/f9QodRJMo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\MyApplication.csproj",
+  "projectFilePath": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\MyApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.aspnetcore.authorization\\8.0.12\\microsoft.aspnetcore.authorization.8.0.12.nupkg.sha512",
     "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.aspnetcore.components\\8.0.12\\microsoft.aspnetcore.components.8.0.12.nupkg.sha512",
@@ -18,12 +18,8 @@
     "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
     "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.jsinterop\\8.0.12\\microsoft.jsinterop.8.0.12.nupkg.sha512",
-    "C:\\Users\\Maxgw\\.nuget\\packages\\mudblazor\\8.5.1\\mudblazor.8.5.1.nupkg.sha512",
-    "C:\\Users\\Maxgw\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512",
-    "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.11\\microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
-    "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.11\\microsoft.windowsdesktop.app.ref.8.0.11.nupkg.sha512",
-    "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.11\\microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512",
-    "C:\\Users\\Maxgw\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.11\\microsoft.netcore.app.host.win-x64.8.0.11.nupkg.sha512"
+    "C:\\Users\\Maxgw\\.nuget\\packages\\mudblazor\\8.6.0\\mudblazor.8.6.0.nupkg.sha512",
+    "C:\\Users\\Maxgw\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }
