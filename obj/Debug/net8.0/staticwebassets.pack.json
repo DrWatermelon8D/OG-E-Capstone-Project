@@ -1,8 +1,12 @@
 {
   "Files": [
     {
-      "Id": "c:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\wwwroot\\favicon.ico",
+      "Id": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyApplication.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyApplication.Microsoft.AspNetCore.StaticWebAssets.props",

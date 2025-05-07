@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\MyApplication.csproj": {}
+    "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\MyApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\MyApplication.csproj": {
+    "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\MyApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\MyApplication.csproj",
+        "projectUniqueName": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\MyApplication.csproj",
         "projectName": "MyApplication",
-        "projectPath": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\MyApplication.csproj",
+        "projectPath": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\MyApplication.csproj",
         "packagesPath": "C:\\Users\\Maxgw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\OG-E-Capstone-Project\\obj\\",
+        "outputPath": "C:\\Users\\Maxgw\\OneDrive\\Documents\\GitHub\\Blazor-Practice\\OG&EApp\\MyApplication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Maxgw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -37,7 +37,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -59,6 +60,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -67,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -6,7 +6,7 @@
 
 <MudText  Typo="Typo.h4" GutterBottom="true">Dashboard</MudText>
 
-<div class="container">
+<div>
     <div class=" align-left row">
         <div class="col">
             <MudText Typo="Typo.h4">Most Active Reader:</MudText>
@@ -39,10 +39,9 @@
         
 <div>
     <div Style="display: inline-flex">
-        <MudText Typo="Typo.h5">Scans over Time
+        <MudText Typo="Typo.h5">Scans over Time</MudText>
         <MudTextField @bind-Value="chartStartDate" Label="Start Date" Variant="Variant.Outlined"Margin="Margin.Dense" Width="20%"></MudTextField>
         <MudTextField @bind-Value="chartEndDate" Label="End Date" Variant="Variant.Outlined" Margin="Margin.Dense" Width="20%"></MudTextField>
-        </MudText>
     </div>
     @if(DictionariesCreated){
         <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="@getChartData()" XAxisLabels="@getChartLabels()" ChartOptions="Options" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
