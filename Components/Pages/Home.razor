@@ -20,19 +20,49 @@
         </div>
 
         <div class="col">
-                <MudTable Items="@alertData()" Bordered=true Dense=true> 
+                <MudTable Items="@alertData()" Bordered=true Dense=true Filter="new Func<Alert,bool>(FilterFunc1)"> 
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Periodic Elements</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
                     <HeaderContent>
                         <MudTh>Alert</MudTh>
                         <MudTh>Alert Description</MudTh>
+                        <MudTh>Severity</MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="Alert">@context.alertType</MudTd>
                         <MudTd DataLabel="Alert Description">@context.alertDescription</MudTd>
+                        <MudTd DataLabel="Severity">
+                            @if(context.Severity == 3)
+                            {
+                                <MudTooltip Text="High Severity">
+                                    <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                                </MudTooltip>
+                            }
+                            else if(context.Severity == 2)
+                            {
+                                <MudTooltip Text="Medium Severity">
+                                    <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Warning" />
+                                </MudTooltip>
+                            }
+                            else if(context.Severity == 1)
+                            {
+                                <MudTooltip Text="Low Severity">
+                                    <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                                </MudTooltip>
+                            }
+                        </MudTd>
                     </RowTemplate>
                     <PagerContent>
                         <MudTablePager />
                     </PagerContent>
                 </MudTable>
+
+                <MudTextField @bind-Value="readerRange" Label="Reader Range" Variant="Variant.Outlined"Margin="Margin.Dense" ></MudTextField>
+                <MudTextField @bind-Value="userRange" Label="User Range" Variant="Variant.Outlined" Margin="Margin.Dense" ></MudTextField>
+                <MudTextField @bind-Value="duplicateRange" Label="Duplicate Range" Variant="Variant.Outlined" Margin="Margin.Dense" ></MudTextField>
         </div>
     </div>
 </div>
@@ -40,8 +70,8 @@
 <div>
     <div Style="display: inline-flex">
         <MudText Typo="Typo.h5">Scans over Time</MudText>
-        <MudTextField @bind-Value="chartStartDate" Label="Start Date" Variant="Variant.Outlined"Margin="Margin.Dense" Width="20%"></MudTextField>
-        <MudTextField @bind-Value="chartEndDate" Label="End Date" Variant="Variant.Outlined" Margin="Margin.Dense" Width="20%"></MudTextField>
+        <MudTextField @bind-Value="chartStartDate" Label="Start Date" Variant="Variant.Outlined"Margin="Margin.Dense" ></MudTextField>
+        <MudTextField @bind-Value="chartEndDate" Label="End Date" Variant="Variant.Outlined" Margin="Margin.Dense" ></MudTextField>
     </div>
     @if(DictionariesCreated){
         <MudChart Class="align-content-center" ChartType="ChartType.Line" ChartSeries="@getChartData()" XAxisLabels="@getChartLabels()" ChartOptions="Options" AxisChartOptions="axisChartOptions" Width="100%" Height="400px"></MudChart>
@@ -58,6 +88,26 @@
     public ChartOptions Options = new ChartOptions();
     public string chartStartDate {get; set;} = "";
     public string chartEndDate {get; set;} = "";
+    public string searchString = "";
+    public int duplicateRange = 25; 
+    public int readerRange = 1000; 
+    public int userRange = 10; 
+
+
+    private bool FilterFunc1(Alert alert) => FilterFunc(alert, searchString);
+
+    private bool FilterFunc(Alert alert, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (alert.alertType.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (alert.alertDescription.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{alert.alertType} {alert.alertDescription}".Contains(searchString))
+            return true;
+        return false;
+    }
 
     public string getMostActiveReader()
     {
@@ -223,7 +273,7 @@
         
         if(DictionariesCreated)
         {
-            alerts = AlertSystem.findAlerts();
+            alerts = AlertSystem.findAlerts(readerRange, userRange, duplicateRange);
         }else{
             alerts = new List<Alert>();
         }

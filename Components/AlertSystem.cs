@@ -9,7 +9,7 @@ using System.Numerics;
 
 public class AlertSystem{
 
-    public static List<Alert> findAlerts(){
+    public static List<Alert> findAlerts(int readerScanRange, int userScanRange, int duplicateScanRange){
         List<Alert> alertList = new List<Alert>();
         
         int total = 0; 
@@ -21,17 +21,9 @@ public class AlertSystem{
         int AverageScans = total/FileStorage.ReaderDictionary.Count();
 
         foreach(KeyValuePair<int, List<ReaderEvent>> r in FileStorage.ReaderDictionary){
-            if(r.Value.Count() - AverageScans >= 1000)
+            if(r.Value.Count() - AverageScans >= readerScanRange)
             {
-                alertList.Add(new Alert("High Usage", "The Reader " + r.Value[0].ReaderDescription + " is recieving higher amounts of scans and may require mantenence sooner."));
-            }
-        }
-
-        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.HashDictionary)
-        {
-            if(r.Value.Count() < 10)
-            {
-                alertList.Add(new Alert("Low Scans", "User " + r.Key + " has only " + r.Value.Count() + " scans."));
+                alertList.Add(new Alert("High Usage", "The Reader " + r.Value[0].ReaderDescription + " is recieving higher amounts of scans.", 3));
             }
         }
 
@@ -50,9 +42,17 @@ public class AlertSystem{
 
         foreach(KeyValuePair<int, List<ReaderEvent>> k in duplicateCounts)
         {
-            if(k.Value.Count() > 25)
+            if(k.Value.Count() >= duplicateScanRange)
             {
-                alertList.Add(new Alert("High Duplicates", "Reader " + k.Value[0].ReaderDescription + " has a high number of duplicate scans."));
+                alertList.Add(new Alert("High Duplicates", "Reader " + k.Value[0].ReaderDescription + " has a high number of duplicate scans. " + k.Value.Count(), 2));
+            }
+        }
+
+        foreach(KeyValuePair<string, List<ReaderEvent>> r in FileStorage.HashDictionary)
+        {
+            if(r.Value.Count() <= userScanRange)
+            {
+                alertList.Add(new Alert("Low Scans", "User " + r.Key + " has only " + r.Value.Count() + " scans.", 1));
             }
         }
 
