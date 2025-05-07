@@ -1,0 +1,28 @@
+@inject IDialogService DialogService
+
+<MudDialog> 
+    <TitleContent>
+        <MudText Typo="Typo.h5">Alert System Settings </MudText>
+    </TitleContent>
+    <DialogContent> 
+        <MudNumericField @bind-Value="Home.readerRange" Label="High Usage Alert Threshold" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="Home.userRange" Label="Low Scans Alert Threshold" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="Home.duplicateRange" Label="High Duplicate Alert Threshold" Variant="Variant.Outlined" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Color="Color.Default" OnClick="Apply">Apply Changes</MudButton>
+    </DialogActions>
+
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+
+    private IMudDialogInstance settingsDialog {get; set;}
+
+    private void Apply()
+    {
+        settingsDialog.Close(DialogResult.Ok(true));
+    }
+}

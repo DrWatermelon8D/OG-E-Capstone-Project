@@ -1,6 +1,7 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
+@inject IDialogService DialogService
 
 <PageTitle>Home</PageTitle>
 
@@ -22,9 +23,10 @@
         <div class="col">
                 <MudTable Items="@alertData()" Bordered=true Dense=true Filter="new Func<Alert,bool>(FilterFunc1)"> 
                     <ToolBarContent>
-                        <MudText Typo="Typo.h6">Periodic Elements</MudText>
+                        <MudText Typo="Typo.h6">Alerts</MudText>
                         <MudSpacer />
                         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                        <MudIconButton Icon="@Icons.Material.Filled.Settings" aria-label="Alert System Settings" OnClick="OpenDialogAsync"></MudIconButton>
                     </ToolBarContent>
                     <HeaderContent>
                         <MudTh>Alert</MudTh>
@@ -59,10 +61,6 @@
                         <MudTablePager />
                     </PagerContent>
                 </MudTable>
-
-                <MudTextField @bind-Value="readerRange" Label="Reader Range" Variant="Variant.Outlined"Margin="Margin.Dense" ></MudTextField>
-                <MudTextField @bind-Value="userRange" Label="User Range" Variant="Variant.Outlined" Margin="Margin.Dense" ></MudTextField>
-                <MudTextField @bind-Value="duplicateRange" Label="Duplicate Range" Variant="Variant.Outlined" Margin="Margin.Dense" ></MudTextField>
         </div>
     </div>
 </div>
@@ -89,11 +87,25 @@
     public string chartStartDate {get; set;} = "";
     public string chartEndDate {get; set;} = "";
     public string searchString = "";
-    public int duplicateRange = 25; 
-    public int readerRange = 1000; 
-    public int userRange = 10; 
+    public static int duplicateRange = 25; 
+    public static int readerRange = 1000; 
+    public static int userRange = 10; 
 
 
+
+    private async Task OpenDialogAsync()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true};
+
+        var dialog = await DialogService.ShowAsync<SettingsDialog>("Options Dialog", options);
+        var results = await dialog.Result;
+
+        if(!results.Canceled)
+        {
+            Navigation.Refresh();
+        }
+
+    }
     private bool FilterFunc1(Alert alert) => FilterFunc(alert, searchString);
 
     private bool FilterFunc(Alert alert, string searchString)
