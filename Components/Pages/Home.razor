@@ -10,14 +10,22 @@
 <div>
     <div class=" align-left row">
         <div class="col">
-            <MudText Typo="Typo.h4">Most Active Reader:</MudText>
-            <MudText Class="pl-2">@getMostActiveReader() </MudText>
-            <MudText Typo="Typo.h4">Most Active User:</MudText>
-            <MudText Class="pl-2">@getMostActiveUser() </MudText>
-            <MudText Typo="Typo.h4">Average Unique scans per day:</MudText>
-            <MudText Class="pl-2">@getAverageActivity() </MudText>
-            <MudText Typo="Typo.h4">Busiest Day of the Week:</MudText>
-            <MudText Class="pl-2">@getMostActiveDayOfWeek() </MudText>
+            <div class="p-3 border rounded shadow">
+                <MudText Typo="Typo.h4">Most Active Reader:</MudText>
+                <MudText Typo="Typo.h5" Class="pl-2">@getMostActiveReader() </MudText>
+            </div>
+            <div class="container border rounded shadow-sm p-2">
+                <MudText Typo="Typo.h4">Most Active User:</MudText>
+                <MudText Typo="Typo.h5" Class="pl-2">@getMostActiveUser() </MudText>
+            </div>
+            <div class="container border rounded shadow-sm p-2">
+                <MudText Typo="Typo.h4">Average Unique scans per day:</MudText>
+                <MudText Typo="Typo.h5" Class="pl-2">@getAverageActivity() </MudText>
+            </div>
+            <div class="container border rounded shadow-sm p-2">
+                <MudText Typo="Typo.h4">Busiest Day of the Week:</MudText>
+                <MudText Typo="Typo.h5" Class="pl-2">@getMostActiveDayOfWeek() </MudText>
+            </div>
         </div>
 
         <div class="col">
